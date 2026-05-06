@@ -1,1 +1,512 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>História da Matemática</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body {
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+
+        .tabs-container {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e9ecef;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 20px 30px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            position: relative;
+        }
+
+        .tab-button:hover {
+            color: #667eea;
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .tab-button.active {
+            color: #667eea;
+        }
+
+        .tab-button.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+
+        .content {
+            padding: 50px 40px;
+            min-height: 600px;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            color: #667eea;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+
+        h3 {
+            color: #764ba2;
+            font-size: 1.5rem;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        p {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 30px;
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.2);
+            border-left-color: #764ba2;
+        }
+
+        .card h4 {
+            color: #667eea;
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .card p {
+            color: #666;
+            font-size: 1rem;
+            margin: 0;
+        }
+
+        .timeline {
+            border-left: 3px solid #667eea;
+            padding-left: 30px;
+            margin: 30px 0;
+        }
+
+        .timeline-item {
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -38px;
+            top: 5px;
+            width: 16px;
+            height: 16px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            box-shadow: 0 0 0 4px white, 0 0 0 8px #667eea;
+        }
+
+        .timeline-item h4 {
+            color: #667eea;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .timeline-item p {
+            color: #666;
+            margin: 8px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 18px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 15px 18px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        tr:hover {
+            background: #f0f3ff;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #667eea20, #764ba220);
+            padding: 30px;
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+            margin: 30px 0;
+            font-style: italic;
+            color: #555;
+            font-size: 1.1rem;
+        }
+
+        footer {
+            background: #f8f9fa;
+            padding: 30px;
+            text-align: center;
+            color: #999;
+            border-top: 1px solid #e9ecef;
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            header p {
+                font-size: 1rem;
+            }
+
+            .tab-button {
+                padding: 15px 15px;
+                font-size: 0.9rem;
+            }
+
+            .content {
+                padding: 30px 20px;
+            }
+
+            h2 {
+                font-size: 1.8rem;
+            }
+
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📐 História da Matemática</h1>
+            <p>A jornada do conhecimento que moldou a civilização</p>
+        </header>
+
+        <div class="tabs-container">
+            <button class="tab-button active" onclick="switchTab(event, 'inicio')">Início</button>
+            <button class="tab-button" onclick="switchTab(event, 'timeline')">Linha do Tempo</button>
+            <button class="tab-button" onclick="switchTab(event, 'mentes')">Grandes Mentes</button>
+            <button class="tab-button" onclick="switchTab(event, 'mulheres')">Mulheres na Ciência</button>
+        </div>
+
+        <div class="content">
+            <!-- ABA 1: INÍCIO -->
+            <div id="inicio" class="tab-content active">
+                <h2>Bem-vindo à História da Matemática</h2>
+                <p>A matemática não é apenas um conjunto de fórmulas e equações; é a linguagem universal que descreve a realidade ao nosso redor. Desde as primeiras contagens em ossos na pré-história até os algoritmos complexos que regem a inteligência artificial hoje, a matemática tem sido o motor do progresso humano.</p>
+                
+                <p>Neste portal, convidamos você a viajar no tempo e descobrir como diferentes civilizações — dos babilônios aos gregos, dos árabes aos europeus do renascimento — contribuíram para construir o edifício do conhecimento que temos hoje.</p>
+
+                <h3>O que você encontrará aqui:</h3>
+                <div class="card-grid">
+                    <div class="card">
+                        <h4>⏳ Evolução Histórica</h4>
+                        <p>Uma visão cronológica dos principais marcos, desde a invenção do zero até o cálculo moderno.</p>
+                    </div>
+                    <div class="card">
+                        <h4>🧠 Grandes Biografias</h4>
+                        <p>Conheça as mentes brilhantes como Euclides, Newton e Gauss que mudaram o mundo.</p>
+                    </div>
+                    <div class="card">
+                        <h4>👩‍🔬 Legado Feminino</h4>
+                        <p>Uma seção especial dedicada às mulheres que superaram barreiras para brilhar na matemática.</p>
+                    </div>
+                </div>
+
+                <h3>Por que estudar a história da matemática?</h3>
+                <p>Entender o contexto em que os conceitos foram criados humaniza a ciência. Percebemos que cada descoberta foi uma resposta a um desafio prático ou uma curiosidade profunda sobre o universo. A história nos ensina que a matemática é uma construção coletiva e contínua.</p>
+            </div>
+
+            <!-- ABA 2: LINHA DO TEMPO -->
+            <div id="timeline" class="tab-content">
+                <h2>Marcos da Matemática</h2>
+                <p>Uma cronologia das descobertas que moldaram a civilização:</p>
+
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <h4>Pré-história (35.000 a.C.)</h4>
+                        <p>Uso de ossos de contagem (como o Osso de Ishango) para registrar ciclos lunares e quantidades básicas. Os primeiros passos da humanidade rumo ao pensamento abstrato.</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h4>Antiguidade (3.000 a.C. - 500 d.C.)</h4>
+                        <p><strong>Egito e Mesopotâmia:</strong> Desenvolvimento da aritmética prática para comércio e geometria para medir terras. Os babilônios criam o sistema sexagesimal (base 60).</p>
+                        <p><strong>Grécia Antiga:</strong> Pitágoras formaliza o teorema das relações em triângulos. Euclides escreve "Os Elementos", fundando a geometria axiomática. Arquimedes antecipa o cálculo moderno.</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h4>Idade Média (500 - 1450)</h4>
+                        <p><strong>Índia:</strong> Invenção do sistema decimal e do conceito de zero por Brahmagupta — talvez a descoberta mais importante da história.</p>
+                        <p><strong>Mundo Islâmico:</strong> Al-Khwarizmi escreve o tratado que dá origem ao termo "Álgebra" e preserva o conhecimento grego.</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h4>Revolução Científica (1600 - 1800)</h4>
+                        <p><strong>Geometria Analítica:</strong> René Descartes une a álgebra à geometria, criando um novo campo.</p>
+                        <p><strong>O Cálculo:</strong> Newton e Leibniz desenvolvem, de forma independente, as ferramentas para entender a mudança e o movimento.</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h4>Era Moderna e Contemporânea (1800 - Presente)</h4>
+                        <p>Surgimento da lógica matemática, teoria dos conjuntos, geometria não-euclidiana e o nascimento da ciência da computação com Alan Turing. A matemática se torna abstrata e fundamental para a tecnologia.</p>
+                    </div>
+                </div>
+
+                <h3>Tabela Resumo</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Período</th>
+                            <th>Principais Focos</th>
+                            <th>Contribuição Chave</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Antiguidade</td>
+                            <td>Agrimensura e Comércio</td>
+                            <td>Geometria Euclidiana</td>
+                        </tr>
+                        <tr>
+                            <td>Idade Média</td>
+                            <td>Cálculo e Astronomia</td>
+                            <td>Zero e Sistema Decimal</td>
+                        </tr>
+                        <tr>
+                            <td>Renascimento</td>
+                            <td>Navegação e Física</td>
+                            <td>Logaritmos e Álgebra Moderna</td>
+                        </tr>
+                        <tr>
+                            <td>Contemporânea</td>
+                            <td>Computação e Dados</td>
+                            <td>Teoria da Informação</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- ABA 3: GRANDES MENTES -->
+            <div id="mentes" class="tab-content">
+                <h2>Os Gigantes da Matemática</h2>
+                <p>Conheça os pensadores cujas ideias sustentam o mundo moderno:</p>
+
+                <div class="card-grid">
+                    <div class="card">
+                        <h4>📖 Euclides de Alexandria</h4>
+                        <p>Conhecido como o "Pai da Geometria", sua obra <em>Os Elementos</em> foi o livro-texto mais influente de todos os tempos, estabelecendo o método dedutivo que define a matemática moderna.</p>
+                    </div>
+                    
+                    <div class="card">
+                        <h4>🌍 Isaac Newton</h4>
+                        <p>Além de suas leis da física, Newton desenvolveu o cálculo diferencial e integral, permitindo a descrição matemática do movimento planetário e revolucionando a ciência.</p>
+                    </div>
+
+                    <div class="card">
+                        <h4>∑ Leonhard Euler</h4>
+                        <p>Um dos matemáticos mais prolíficos da história. Introduziu grande parte da terminologia moderna, como o símbolo de somatório e a base dos logaritmos naturais (e).</p>
+                    </div>
+
+                    <div class="card">
+                        <h4>👑 Carl Friedrich Gauss</h4>
+                        <p>Chamado de "Príncipe dos Matemáticos", contribuiu significativamente para a teoria dos números, estatística, análise e geometria diferencial.</p>
+                    </div>
+
+                    <div class="card">
+                        <h4>⚙️ Arquimedes de Siracusa</h4>
+                        <p>Considerado o maior matemático da antiguidade, antecipou conceitos do cálculo moderno ao calcular áreas e volumes de superfícies curvas com precisão impressionante.</p>
+                    </div>
+
+                    <div class="card">
+                        <h4>🤖 Alan Turing</h4>
+                        <p>Pioneiro da ciência da computação teórica e da inteligência artificial, formalizou os conceitos de algoritmo e computação com a máquina de Turing.</p>
+                    </div>
+                </div>
+
+                <div class="highlight">
+                    "A matemática é a rainha das ciências e a teoria dos números é a rainha da matemática." — <strong>Carl Friedrich Gauss</strong>
+                </div>
+            </div>
+
+            <!-- ABA 4: MULHERES NA CIÊNCIA -->
+            <div id="mulheres" class="tab-content">
+                <h2>Mulheres na Matemática</h2>
+                <p>Honrando o legado daquelas que superaram barreiras e transformaram a ciência:</p>
+
+                <p>Historicamente, as mulheres enfrentaram imensos obstáculos para acessar a educação formal e o reconhecimento acadêmico. No entanto, suas contribuições foram fundamentais para o desenvolvimento de áreas como a álgebra, a física teórica e a computação.</p>
+
+                <div class="card-grid">
+                    <div class="card">
+                        <h4>💻 Ada Lovelace</h4>
+                        <p>Escritora e matemática inglesa, é reconhecida por ter escrito o primeiro algoritmo para ser processado por uma máquina, tornando-se a primeira programadora da história.</p>
+                    </div>
+
+                    <div class="card">
+                        <h4>🔬 Emmy Noether</h4>
+                        <p>Albert Einstein a descreveu como a mulher mais importante na história da matemática. Ela revolucionou a álgebra abstrata e provou o Teorema de Noether, crucial para a física moderna.</p>
+                    </div>
+
+                    <div class="card">
+                        <h4>🏛️ Hipátia de Alexandria</h4>
+                        <p>A primeira mulher matemática cuja vida e obra foram bem documentadas. Foi uma líder neoplatonista que ensinou astronomia e filosofia no Egito antigo.</p>
+                    </div>
+
+                    <div class="card">
+                        <h4>🔐 Sophie Germain</h4>
+                        <p>Apesar de ser proibida de estudar formalmente, fez contribuições seminais para a teoria dos números e a teoria da elasticidade, usando o pseudônimo de Monsieur Le Blanc.</p>
+                    </div>
+
+                    <div class="card">
+                        <h4>🚀 Katherine Johnson</h4>
+                        <p>Matemática da NASA cujos cálculos de mecânica orbital foram essenciais para o sucesso dos primeiros voos espaciais tripulados dos EUA.</p>
+                    </div>
+
+                    <div class="card">
+                        <h4>🏆 Maryam Mirzakhani</h4>
+                        <p>A primeira mulher a receber a Medalha Fields, o "Nobel da Matemática", por seu trabalho excepcional na dinâmica e geometria de superfícies de Riemann.</p>
+                    </div>
+                </div>
+
+                <div class="highlight">
+                    O reconhecimento dessas mulheres não é apenas uma questão de justiça histórica, mas uma inspiração para as futuras gerações de meninas que desejam seguir carreiras em STEM (Ciência, Tecnologia, Engenharia e Matemática).
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2026 Portal da História da Matemática. Criado com ❤️ por Manus.</p>
+        </footer>
+    </div>
+
+    <script>
+        function switchTab(evt, tabName) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(tab => tab.classList.remove('active'));
+
+            // Remove active class from all buttons
+            const tabButtons = document.querySelectorAll('.tab-button');
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+
+            // Show the current tab
+            document.getElementById(tabName).classList.add('active');
+
+            // Add active class to the clicked button
+            evt.currentTarget.classList.add('active');
+        }
+    </script>
+</body>
+</html>
